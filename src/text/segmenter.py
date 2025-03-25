@@ -1,5 +1,5 @@
 import re
-from typing import List, Tuple
+from typing import List
 
 class TextSegmenter:
     def segment_by_sentence(self, text: str) -> List[str]:

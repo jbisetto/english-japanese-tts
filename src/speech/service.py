@@ -1,6 +1,5 @@
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Tuple
 from src.config import Config
-from src.speech.tts_service import TTSService
 from src.speech.aws_polly_service import AWSPollyService
 from src.speech.google_cloud_tts_service import GoogleCloudTTSService
 from src.speech.exceptions import TTSError, TTSConnectionError, TTSInvalidInputError, TTSSynthesisError
