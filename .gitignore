@@ -5,3 +5,7 @@ output.mp3
 output.wav
 __pycache__/
 .env
+demo/temp/
+*.wav
+*.mp3
+*.ogg

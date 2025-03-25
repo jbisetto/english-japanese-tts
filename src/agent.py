@@ -23,4 +23,4 @@ class TTSAgent:
         processed_audio = self.audio_processor.enhance_transitions(audio_segments)
         merged_audio = self.output_manager.merge_segments(processed_audio)
         self.output_manager.export_audio(merged_audio, output_path, "wav")
-        return output_path
+        return output_path, [f"{lang}: {text}" for lang, text in language_segments]

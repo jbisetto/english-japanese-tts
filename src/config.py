@@ -7,3 +7,8 @@ class Config:
         self.japanese_voice_id = os.environ.get("JAPANESE_VOICE_ID", "Takumi")
         self.language_detection_model_id = os.environ.get("LANGUAGE_DETECTION_MODEL_ID", "amazon.titan-text-large")
         self.tts_service = os.environ.get("TTS_SERVICE", "aws_polly") # Options: aws_polly, google_cloud
+        
+        # AWS credentials
+        self.aws_access_key_id = os.environ.get("AWS_ACCESS_KEY_ID")
+        self.aws_secret_access_key = os.environ.get("AWS_SECRET_ACCESS_KEY")
+        self.aws_region_name = os.environ.get("AWS_REGION_NAME", "us-east-1")

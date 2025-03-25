@@ -1,0 +1,5 @@
+Hello! This is a sample text.
+こんにちは！これはサンプルテキストです。
+
+The weather is nice today.
+今日は天気が良いですね。
