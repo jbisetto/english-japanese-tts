@@ -25,6 +25,8 @@ This system processes text input, detects language boundaries between English an
 
     You also need to grant your AWS user account the `AmazonBedrockReadOnly` and `AmazonBedrockInvocation` permissions.
 
+    For Google Cloud TTS, you need to set the `GOOGLE_APPLICATION_CREDENTIALS` environment variable to the path to your Google Cloud service account key file.
+
 3.  Run the example:
 
     ```

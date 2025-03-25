@@ -1,2 +1,7 @@
 boto3
 pydub
+google-cloud-texttospeech
+numpy
+librosa
+soundfile
+langdetect

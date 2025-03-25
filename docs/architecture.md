@@ -7,5 +7,6 @@ The system is designed with a modular architecture, following a domain-driven de
 -   **Speech Synthesis Domain**: Converts text to speech using appropriate models/voices.
 -   **Output Domain**: Manages audio merging and output formatting.
 -   **AWS Integration**: Provides the Amazon Bedrock client for API communication.
+-   **Google Cloud TTS Integration**: Provides the Google Cloud Text-to-Speech client for API communication.
 
 The `TTSAgent` orchestrates the entire process, coordinating the workflow between components.

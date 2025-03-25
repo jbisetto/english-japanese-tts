@@ -21,5 +21,6 @@ class TTSAgent:
         language_segments = self.language_detector.segment_by_language(processed_text)
         audio_segments = self.speech_service.synthesize_all(language_segments)
         processed_audio = self.audio_processor.enhance_transitions(audio_segments)
-        self.output_manager.export_audio(processed_audio, output_path, "mp3")
+        merged_audio = self.output_manager.merge_segments(processed_audio)
+        self.output_manager.export_audio(merged_audio, output_path, "wav")
         return output_path
