@@ -1,47 +1,55 @@
 import os
 from google.cloud import texttospeech
+from google.api_core import exceptions as google_exceptions
+from src.speech.tts_service import TTSService
+from src.speech.exceptions import TTSConnectionError, TTSInvalidInputError, TTSSynthesisError
 
-class GoogleCloudTTSService:
-    def __init__(self):
+class GoogleCloudTTSService(TTSService):
+    def __init__(self, config):
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = config.google_cloud_credentials_path
         self.client = texttospeech.TextToSpeechClient()
 
-    def synthesize(self, language: str, text: str, voice_id: str = None) -> bytes:
+    def synthesize(self, language: str, text: str, voice_id: str = "en-US-Standard-A") -> bytes:
         """Synthesizes speech from the given text and language using Google Cloud TTS.
 
         Args:
-            language: The language of the text ('en' or 'ja').
+            language: The language of the text.
             text: The text to synthesize.
-            voice_id: The voice ID to use for synthesis.
+            voice_id: The voice ID to use for synthesis (default: en-US-Standard-A).
 
         Returns:
             The synthesized audio data as bytes.
+
+        Raises:
+            TTSConnectionError: If there are connection/authentication issues with Google Cloud TTS.
+            TTSInvalidInputError: If the input text or parameters are invalid.
+            TTSSynthesisError: If there's an error during speech synthesis.
         """
+        if not text.strip():
+            raise TTSInvalidInputError("Text cannot be empty")
+
         try:
-            # Set the text input to be synthesized
             synthesis_input = texttospeech.SynthesisInput(text=text)
-
-            # Build the voice request
-            language_code = "en-US" if language == "en" else "ja-JP"
             voice = texttospeech.VoiceSelectionParams(
-                language_code=language_code,
-                name=voice_id if voice_id else "en-US-Standard-A"
+                language_code=language,
+                name=voice_id
             )
-
-            # Select the type of audio file you want returned
             audio_config = texttospeech.AudioConfig(
                 audio_encoding=texttospeech.AudioEncoding.LINEAR16,
                 sample_rate_hertz=16000
             )
 
-            # Perform the text-to-speech request
             response = self.client.synthesize_speech(
                 input=synthesis_input,
                 voice=voice,
                 audio_config=audio_config
             )
-
-            # Return the binary audio content
             return response.audio_content
+        except google_exceptions.PermissionDenied as e:
+            raise TTSConnectionError(f"Google Cloud TTS authentication error: {e}")
+        except google_exceptions.InvalidArgument as e:
+            raise TTSInvalidInputError(f"Invalid input for Google Cloud TTS: {e}")
+        except google_exceptions.GoogleAPIError as e:
+            raise TTSSynthesisError(f"Google Cloud TTS synthesis error: {e}")
         except Exception as e:
-            print(f"Error synthesizing speech: {e}")
-            return b""
+            raise TTSSynthesisError(f"Unexpected error during Google Cloud TTS synthesis: {e}")

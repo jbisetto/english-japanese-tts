@@ -1,6 +1,8 @@
 import os
 import boto3
+from botocore.exceptions import BotoCoreError, ClientError
 from src.speech.tts_service import TTSService
+from src.speech.exceptions import TTSConnectionError, TTSInvalidInputError, TTSSynthesisError
 
 class AWSPollyService(TTSService):
     def __init__(self, config):
@@ -21,7 +23,15 @@ class AWSPollyService(TTSService):
 
         Returns:
             The synthesized audio data as bytes.
+
+        Raises:
+            TTSConnectionError: If there are connection/authentication issues with AWS Polly.
+            TTSInvalidInputError: If the input text or parameters are invalid.
+            TTSSynthesisError: If there's an error during speech synthesis.
         """
+        if not text.strip():
+            raise TTSInvalidInputError("Text cannot be empty")
+
         try:
             response = self.polly_client.synthesize_speech(
                 Text=text,
@@ -31,6 +41,12 @@ class AWSPollyService(TTSService):
             )
             audio_stream = response["AudioStream"].read()
             return audio_stream
+        except (BotoCoreError, ClientError) as e:
+            if "AccessDenied" in str(e) or "UnrecognizedClientException" in str(e):
+                raise TTSConnectionError(f"AWS Polly authentication error: {e}")
+            elif "ValidationException" in str(e) or "InvalidParameterValue" in str(e):
+                raise TTSInvalidInputError(f"Invalid input for AWS Polly: {e}")
+            else:
+                raise TTSSynthesisError(f"AWS Polly synthesis error: {e}")
         except Exception as e:
-            print(f"Error synthesizing speech: {e}")
-            return b""
+            raise TTSSynthesisError(f"Unexpected error during AWS Polly synthesis: {e}")
