@@ -7,3 +7,4 @@ soundfile
 langdetect
 gradio
 ffmpeg-python  # Required for pydub to handle mp3/ogg formats
+nltk>=3.8.1  # Required for robust sentence segmentation

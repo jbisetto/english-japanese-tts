@@ -1,6 +1,6 @@
-# English-Japanese Text-to-Speech System with Amazon Bedrock
+# English-Japanese Text-to-Speech System
 
-This project implements a text-to-speech system that converts text containing both English and Japanese into natural-sounding speech using Amazon Bedrock.
+This project implements a text-to-speech system that converts text containing both English and Japanese into natural-sounding speech using AWS Polly and Google Cloud TTS services.
 
 ## Overview
 
@@ -16,16 +16,19 @@ This system processes text input, detects language boundaries between English an
 
 2.  Set the environment variables:
 
+    For AWS Polly:
     ```
-    BEDROCK_REGION=your_bedrock_region
+    AWS_REGION_NAME=your_aws_region
+    AWS_ACCESS_KEY_ID=your_aws_access_key_id
+    AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
     ENGLISH_VOICE_ID=your_english_voice_id
     JAPANESE_VOICE_ID=your_japanese_voice_id
-    LANGUAGE_DETECTION_MODEL_ID=your_language_detection_model_id
     ```
 
-    You also need to grant your AWS user account the `AmazonBedrockReadOnly` and `AmazonBedrockInvocation` permissions.
-
-    For Google Cloud TTS, you need to set the `GOOGLE_APPLICATION_CREDENTIALS` environment variable to the path to your Google Cloud service account key file.
+    For Google Cloud TTS:
+    ```
+    GOOGLE_APPLICATION_CREDENTIALS=/path/to/your/google_cloud_credentials.json
+    ```
 
 3.  Run the example:
 
@@ -38,8 +41,6 @@ This system processes text input, detects language boundaries between English an
     ```
     PYTHONPATH=. python examples/simple_tts.py
     ```
-
-The `export_audio` method in the `OutputManager` class has a placeholder comment for audio export implementation.
 
 ## Running the Demo Application
 
@@ -64,3 +65,4 @@ The `export_audio` method in the `OutputManager` class has a placeholder comment
 
     ```bash
     python demo/app.py
+    ```

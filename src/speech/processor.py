@@ -1,12 +1,5 @@
-import numpy as np
-import librosa
-import soundfile as sf
-
-class AudioProcessor:
-    def enhance_transitions(self, segments):
-        # Enhance audio quality and consistency
-        # Concatenate the audio segments
-        processed_segments = []
-        for segment in segments:
-            processed_segments.append(segment)
-        return processed_segments
+"""
+This module has been removed as its functionality is now handled by the OutputManager class.
+The enhance_transitions functionality (adding silence between segments) is implemented in
+OutputManager.merge_segments.
+"""

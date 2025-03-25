@@ -9,3 +9,8 @@ demo/temp/
 *.wav
 *.mp3
 *.ogg
+
+# Python cache files
+*.py[cod]
+*$py.class
+**/__pycache__/
