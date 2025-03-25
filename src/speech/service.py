@@ -84,4 +84,11 @@ class SpeechService:
         Returns:
             List of audio segments as bytes
         """
-        return [self.synthesize_segment(lang, text) for lang, text in language_segments]
+        return [
+            self.synthesize_segment(
+                text=text,
+                language=lang,
+                voice_id=self.english_voice_id if lang.startswith("en") else self.japanese_voice_id
+            ) 
+            for lang, text in language_segments
+        ]
