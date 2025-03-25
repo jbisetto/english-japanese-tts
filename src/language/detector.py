@@ -26,8 +26,8 @@ class LanguageDetector:
             if any(ord(char) > 0x3040 for char in text_segment):
                 return "ja"
                 
-            # For non-Japanese text, use langdetect
-            return detect(text_segment)
+            # For non-Japanese text, treat as English
+            return "en"
         except:
             return "en"
 
