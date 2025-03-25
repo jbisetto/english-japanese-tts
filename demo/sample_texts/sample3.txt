@@ -1,0 +1,6 @@
+This is a longer example with more mixed text.
+これは、より多くの混合テキストを含む長い例です。
+The quick brown fox jumps over the lazy dog.
+素早い茶色のキツネが怠惰な犬を飛び越えます。
+Testing the system with different sentence structures.
+さまざまな文構造でシステムをテストします。

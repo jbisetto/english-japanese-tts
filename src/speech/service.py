@@ -9,7 +9,7 @@ class SpeechService:
         self.config = config
         tts_service_name = config.tts_service
         if tts_service_name == "aws_polly":
-            self.tts_service = AWSPollyService()
+            self.tts_service = AWSPollyService(config)
         elif tts_service_name == "google_cloud":
             self.tts_service = GoogleCloudTTSService()
         else:
@@ -18,11 +18,26 @@ class SpeechService:
         self.japanese_voice_id = config.japanese_voice_id
 
     def synthesize_segment(self, language: str, text_segment: str) -> bytes:
-        # Select appropriate TTS voice based on detected language
-        # Handle pronunciation of foreign words within each language
-        # Support speaking style parameters (speed, pitch, emphasis)
-        return self.tts_service.synthesize(language, text_segment)
+        """Select appropriate TTS voice based on detected language.
+        
+        Args:
+            language: The language code ('en' or 'ja')
+            text_segment: The text to synthesize
+            
+        Returns:
+            The synthesized audio as bytes
+        """
+        # Select voice based on language
+        voice_id = self.english_voice_id if language == "en" else self.japanese_voice_id
+        return self.tts_service.synthesize(language, text_segment, voice_id)
 
     def synthesize_all(self, language_segments: List[Tuple[str, str]]) -> List[bytes]:
-        # Convert text to speech using appropriate models/voices
+        """Convert text to speech using appropriate models/voices.
+        
+        Args:
+            language_segments: List of (language_code, text) tuples
+            
+        Returns:
+            List of audio segments as bytes
+        """
         return [self.synthesize_segment(lang, text) for lang, text in language_segments]

@@ -40,3 +40,27 @@ This system processes text input, detects language boundaries between English an
     ```
 
 The `export_audio` method in the `OutputManager` class has a placeholder comment for audio export implementation.
+
+## Running the Demo Application
+
+1.  Install the dependencies:
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+2.  Set the environment variables:
+
+    The application requires the following environment variables to be set:
+
+    *   **AWS Polly:**
+        *   `AWS_ACCESS_KEY_ID`
+        *   `AWS_SECRET_ACCESS_KEY`
+        *   `AWS_REGION_NAME`
+    *   **Google Cloud TTS:**
+        *   `GOOGLE_APPLICATION_CREDENTIALS` (path to your Google Cloud service account key file)
+
+3.  Run the application:
+
+    ```bash
+    python demo/app.py
