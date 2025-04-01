@@ -1,0 +1,8 @@
+Dr. Smith's research on AI was published in Nature.
+スミス博士の人工知能研究は「Nature」に掲載されました。
+
+The new ML model achieved 95% accuracy on the test dataset.
+新しい機械学習モデルはテストデータセットで95%の精度を達成しました。
+
+Prof. Williams will present at the A.I. conference in Tokyo.
+ウィリアムズ教授は東京のA.I.カンファレンスで発表を行います。 
