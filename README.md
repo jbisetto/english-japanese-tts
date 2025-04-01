@@ -1,6 +1,6 @@
 # English-Japanese Text-to-Speech System
 
-This project implements a text-to-speech system that converts text containing both English and Japanese into natural-sounding speech using AWS Polly and Google Cloud TTS services.
+This project implements a text-to-speech system that converts text containing both English and Japanese into natural-sounding speech using AWS Polly or Google Cloud TTS services. Currently, I have only tested with AWS Polly.
 
 ## Quick Links
 - [Demo Application Guide](demo/README.md) - Web interface for the TTS system
