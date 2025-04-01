@@ -1,0 +1,6 @@
+# Demo-specific dependencies
+python-dotenv>=1.0.0  # For loading environment variables
+gradio>=4.0.0        # For web interface
+
+# Include core TTS system dependencies
+-r ../requirements.txt 

@@ -28,22 +28,51 @@ For detailed API documentation and architecture overview, see:
 
 ## Setup
 
-1. **Install dependencies:**
+1. **Create and activate a virtual environment:**
 
     ```bash
-    pip install -r requirements.txt
+    # Create virtual environment
+    python -m venv venv
+
+    # Activate on Windows
+    venv\Scripts\activate
+
+    # Activate on macOS/Linux
+    source venv/bin/activate
     ```
 
-2. **Download NLTK data:**
+2. **Install dependencies:**
+
+    ```bash
+    # Install demo-specific and core dependencies
+    pip install -r demo/requirements.txt
+    ```
+    This will install:
+    - Demo-specific packages (Gradio, python-dotenv)
+    - Core TTS system dependencies
+    - All required Python packages
+
+3. **Download NLTK data:**
     ```bash
     python download_nltk_data.py
     ```
     This downloads the required NLTK data for sentence segmentation and text processing.
 
-3. **Set environment variables:**
+4. **Set environment variables:**
 
-    The application supports two TTS services. You can configure either or both:
+    Create a `.env` file in the project root with the following variables:
 
+    ```env
+    # AWS Polly Configuration
+    AWS_ACCESS_KEY_ID=your_aws_access_key_id
+    AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
+    AWS_REGION_NAME=your_aws_region
+
+    # Google Cloud Configuration
+    GOOGLE_APPLICATION_CREDENTIALS=/path/to/your/google_cloud_credentials.json
+    ```
+
+    You can configure either or both services:
     * **AWS Polly:**
         * `AWS_ACCESS_KEY_ID`
         * `AWS_SECRET_ACCESS_KEY`
@@ -51,11 +80,13 @@ For detailed API documentation and architecture overview, see:
     * **Google Cloud TTS:**
         * `GOOGLE_APPLICATION_CREDENTIALS` (path to your Google Cloud service account key file)
 
-4. **Run the application:**
+5. **Run the application:**
 
     ```bash
     python demo/app.py
     ```
+
+    The web interface will be available at http://localhost:7860
 
 ## Usage
 

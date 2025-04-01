@@ -1,10 +1,10 @@
-boto3
-pydub
-google-cloud-texttospeech
-numpy
-librosa
-soundfile
-langdetect
-gradio
-ffmpeg-python  # Required for pydub to handle mp3/ogg formats
-nltk>=3.8.1  # Required for robust sentence segmentation
+# Core TTS system dependencies
+boto3              # AWS SDK for Polly
+pydub             # Audio processing
+google-cloud-texttospeech  # Google Cloud TTS
+numpy             # Numerical operations
+librosa           # Audio processing
+soundfile         # Audio file handling
+langdetect        # Language detection
+ffmpeg-python     # Required for pydub to handle mp3/ogg formats
+nltk>=3.8.1       # Required for robust sentence segmentation
