@@ -7,6 +7,7 @@ This project implements a text-to-speech system that converts text containing bo
 - [API Documentation](docs/api.md) - Detailed API reference
 - [Architecture Overview](docs/architecture.md) - System design and components
 - [Usage Guide](docs/usage.md) - Detailed usage examples
+- [REST API Guide](api/README.md) - FastAPI REST interface for the TTS system
 
 ## Overview
 
@@ -91,6 +92,67 @@ PYTHONPATH=. python examples/simple_tts.py
     ```
 
 For detailed demo instructions and features, see the [Demo Application Guide](demo/README.md).
+
+## REST API
+
+The system provides a RESTful API powered by FastAPI for integration with other services.
+
+### API Features
+- Convert text to speech via HTTP requests
+- Automatic language detection between English and Japanese 
+- Multiple voice and output format options
+- Stateless architecture for scalability
+
+### Running the API Server
+
+#### Using Docker Compose (Recommended)
+
+1. Create a `.env` file with your AWS/Google Cloud credentials:
+
+    ```
+    AWS_ACCESS_KEY_ID=your_aws_access_key
+    AWS_SECRET_ACCESS_KEY=your_aws_secret_key
+    AWS_REGION_NAME=us-east-1
+    TTS_SERVICE=aws_polly
+    ENGLISH_VOICE_ID=Joanna
+    JAPANESE_VOICE_ID=Mizuki
+    ```
+
+2. If using Google Cloud TTS, add the credentials file:
+   - Set `TTS_SERVICE=google_cloud` in your `.env` file
+   - Place your Google credentials JSON at the project root
+   - Uncomment the volume mount in `docker-compose.yml`
+
+3. Start the API server:
+
+    ```bash
+    docker-compose up -d
+    ```
+
+4. Access the API at http://localhost:8001/docs
+
+#### Running Locally
+
+1. Install the dependencies:
+
+    ```bash
+    pip install -r api/requirements.txt
+    ```
+
+2. Download NLTK data:
+
+    ```bash
+    python api/download_nltk_data.py
+    ```
+
+3. Run the API server:
+
+    ```bash
+    cd api
+    uvicorn main:app --host 0.0.0.0 --port 8001
+    ```
+
+For detailed API documentation and example requests, see the [REST API Guide](api/README.md).
 
 ## Development
 
