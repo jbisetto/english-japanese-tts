@@ -51,7 +51,7 @@ Converts text to speech.
 
 ### `GET /audio/{request_id}/{filename}`
 
-Serves the generated audio file.
+Serves the generated audio file. Note that files are automatically deleted after being accessed.
 
 ### `DELETE /audio/{request_id}`
 
@@ -64,6 +64,12 @@ Deletes all audio files associated with the specified request ID.
   "message": "Audio files for request 1234-5678-90ab-cdef deleted successfully"
 }
 ```
+
+## File Retention Policy
+
+- Audio files are automatically deleted after being accessed through the `/audio` endpoint
+- Any files not accessed are automatically cleaned up after 5 minutes
+- If needed, files can be explicitly deleted using the DELETE endpoint
 
 ## Running with Docker Compose
 

@@ -73,18 +73,19 @@ def create_config(tts_service: str, english_voice_id: str,
     return config
 
 # Helper function to clean up old files
-def cleanup_old_files(directory: str, max_age_hours: int = 1):
-    """Remove files older than max_age_hours from directory."""
+def cleanup_old_files(directory: str, max_age_minutes: int = 5):
+    """Remove files older than max_age_minutes from directory."""
     import time
     now = time.time()
     for filename in os.listdir(directory):
         file_path = os.path.join(directory, filename)
-        if os.path.isfile(file_path):
-            if os.stat(file_path).st_mtime < now - max_age_hours * 3600:
-                try:
-                    os.unlink(file_path)
-                except Exception as e:
-                    print(f"Error deleting {file_path}: {e}")
+        if os.path.isdir(file_path):
+            try:
+                # Check if directory is older than max_age_minutes
+                if os.stat(file_path).st_mtime < now - max_age_minutes * 60:
+                    shutil.rmtree(file_path, ignore_errors=True)
+            except Exception as e:
+                print(f"Error deleting directory {file_path}: {e}")
 
 # Routes
 @app.get("/")
@@ -189,14 +190,21 @@ async def synthesize_speech(request: TTSRequest, background_tasks: BackgroundTas
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/audio/{request_id}/{filename}")
-async def get_audio(request_id: str, filename: str):
-    """Serve the generated audio file"""
-    file_path = os.path.join(TEMP_DIR, request_id, filename)
+async def get_audio(request_id: str, filename: str, background_tasks: BackgroundTasks):
+    """Serve the generated audio file and delete it after access"""
+    audio_dir = os.path.join(TEMP_DIR, request_id)
+    file_path = os.path.join(audio_dir, filename)
     
     if not os.path.exists(file_path):
         raise HTTPException(status_code=404, detail="Audio file not found")
     
-    return FileResponse(file_path)
+    # Schedule deletion of the file after it's served
+    background_tasks.add_task(shutil.rmtree, audio_dir, ignore_errors=True)
+    
+    return FileResponse(
+        file_path,
+        headers={"Cache-Control": "no-cache, no-store, must-revalidate"}
+    )
 
 @app.delete("/audio/{request_id}")
 async def delete_audio(request_id: str):
@@ -216,7 +224,7 @@ async def delete_audio(request_id: str):
 @app.on_event("startup")
 async def startup_event():
     # Clean up any temporary files from previous runs
-    cleanup_old_files(TEMP_DIR, max_age_hours=24)
+    cleanup_old_files(TEMP_DIR, max_age_minutes=5)
 
 if __name__ == "__main__":
     import uvicorn
