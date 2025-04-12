@@ -102,6 +102,7 @@ The system provides a RESTful API powered by FastAPI for integration with other 
 - Automatic language detection between English and Japanese 
 - Multiple voice and output format options
 - Stateless architecture for scalability
+- Efficient file management (files are deleted after access or after 5 minutes)
 
 ### Running the API Server
 
