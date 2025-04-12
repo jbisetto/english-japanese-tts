@@ -1,0 +1,24 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./api/temp:/app/api/temp
+      # Uncomment the next line if using Google Cloud TTS
+      # - ./google_credentials.json:/app/google_credentials.json:ro
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_REGION_NAME=${AWS_REGION_NAME:-us-east-1}
+      - ENGLISH_VOICE_ID=${ENGLISH_VOICE_ID:-Joanna}
+      - JAPANESE_VOICE_ID=${JAPANESE_VOICE_ID:-Mizuki}
+      - TTS_SERVICE=${TTS_SERVICE:-aws_polly}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s 
